@@ -4,21 +4,24 @@ export const ContexAPI = createContext();
 
 export const ContexAPIProvider = ({ children }) => {
   const [photos, setPhotos] = useState([]);
-    const [favoritos, setFavoritos] = useState([]);
-    
+  const [favoritos, setFavoritos] = useState([]);
 
   useEffect(() => {
     consumoAPI();
-
-    console.log("SOY LA API");
   }, []);
 
   const consumoAPI = async () => {
-    const PHOTO_URL = "/photos.json";
-    const response = await fetch(PHOTO_URL);
-    const data = await response.json();
-    console.log(data, "<------- DATA");
-    setPhotos(data);
+    try {
+      const response = await fetch("/photos.json");
+      if (!response.ok) {
+        throw new Error('Failed to fetch');
+      }
+      const data = await response.json();
+      console.log(data);
+      setPhotos(data.photos);
+    } catch (error) {
+      console.error('Error fetching photos:', error);
+    }
   };
 
   const toggleFavorito = (id) => {

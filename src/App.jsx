@@ -4,6 +4,7 @@ import Favorites from "./views/Favorites";
 import Home from "./views/Home";
 import { ContexAPIProvider } from "./contex/ContexAPI";
 
+const PHOTO_URL = "/photos.json";
 
 const App = () => {
   return (
