@@ -1,0 +1,16 @@
+.gallery-item {
+    position: relative;
+  }
+  
+  .image-container {
+    position: relative;
+  }
+  
+  .iconHeart {
+    position: absolute;
+    top: 25px; 
+    right: 65px;
+    width: 35px; 
+    height: 35px; 
+    cursor: pointer;
+  }
