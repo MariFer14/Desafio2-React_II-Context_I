@@ -18,20 +18,24 @@ export const ContexAPIProvider = ({ children }) => {
       }
       const data = await response.json();
       console.log(data);
-      setPhotos(data.photos);
+      const photosWithFavorites = data.photos.map(photo => ({ ...photo, isFavorite: false }));
+      setPhotos(photosWithFavorites);
     } catch (error) {
       console.error('Error fetching photos:', error);
     }
   };
 
   const toggleFavorito = (id) => {
-    const photo = photos.find((photo) => photo.id === id);
-    if (!photo) return;
+    const updatedPhotos = photos.map(photo =>
+      photo.id === id ? { ...photo, isFavorite: !photo.isFavorite } : photo
+    );
+    setPhotos(updatedPhotos);
 
-    if (favoritos.some((f) => f.id === id)) {
-      setFavoritos(favoritos.filter((f) => f.id !== id));
+    const updatedPhoto = updatedPhotos.find(photo => photo.id === id);
+    if (updatedPhoto.isFavorite) {
+      setFavoritos(prevFavoritos => [...prevFavoritos, updatedPhoto]);
     } else {
-      setFavoritos([...favoritos, photo]);
+      setFavoritos(prevFavoritos => prevFavoritos.filter(photo => photo.id !== id));
     }
   };
 
